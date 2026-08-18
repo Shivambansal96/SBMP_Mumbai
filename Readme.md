@@ -878,14 +878,14 @@ print(freqCalc)
 
 ### 📌 Key Takeaways (Day 2)
 
-💡 **`for` loops are for known counts, `while` loops are for conditions** — pick based on what you're repeating
-💡 **`break` exits a loop immediately** — useful for early stopping
-💡 **List methods like `.sort()` and `.reverse()` return `None`** — they change the list, don't replace it
-💡 **`in` and `.index()` make searching lists simple** — no manual loop needed
-💡 **Tuples are like locked lists** — great for fixed, related data
-💡 **`.get()` is safer than `[]` for dictionaries** — avoids crashing on missing keys
-💡 **Loops + dictionaries = powerful patterns** — like building a frequency counter in a few lines
-💡 **DRY your input code** — loops beat copy-pasting `input()` three times
+💡 **`for` loops are for known counts, `while` loops are for conditions** — pick based on what you're repeating<br>
+💡 **`break` exits a loop immediately** — useful for early stopping<br>
+💡 **List methods like `.sort()` and `.reverse()` return `None`** — they change the list, don't replace it<br>
+💡 **`in` and `.index()` make searching lists simple** — no manual loop needed<br>
+💡 **Tuples are like locked lists** — great for fixed, related data<br>
+💡 **`.get()` is safer than `[]` for dictionaries** — avoids crashing on missing keys<br>
+💡 **Loops + dictionaries = powerful patterns** — like building a frequency counter in a few lines<br>
+💡 **DRY your input code** — loops beat copy-pasting `input()` three times<br>
 
 
 <!-- ## Day 3: Lists & Tuples
