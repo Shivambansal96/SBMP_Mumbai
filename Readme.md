@@ -27,12 +27,11 @@ This repository is your complete companion for understanding Python fundamentals
 | Status | Day | Topic | Difficulty | File |
 |--------|-----|-------|-----------|------|
 | 🔴 Done | **Day 1** | [Print, Variables, Data Types & Conditionals](#day-1-print-variables-data-types--conditionals) | 🟢 Easy | `Day1.py` |
-| ⚪ Upcoming | **Day 2** | [Loops & Iterations, Lists & Tuples](#day-2-loops--iterations) | 🟡 Medium | `Day2.py` |
-<!-- | ⚪ Upcoming | **Day 3** | [Dictionaries & Sets, Functions & Scope](#day-3-lists--tuples) | 🟡 Medium | `Day3.py` |
-| ⚪ Upcoming | **Day 4** | [Recursion & BackTracking](#day-4-dictionaries--sets) | 🟡 Medium | `Day4.py` |
-| ⚪ Upcoming | **Day 5** | [File Handling & Exceptions](#day-5-functions--scope) | 🟡 Medium | `Day5.py` |
-| ⚪ Upcoming | **Day 6** | [Class & Objects](#day-6-file-handling--exceptions) | 🔴 Hard | `Day6.py` |
-| ⚪ Upcoming | **Day 7** | [OOPs](#day-7-oop-basics--capstone-project) | 🔴 Hard | `Day7.py` | -->
+| 🔴 Done | **Day 2** | [Loops & Iterations, Lists & Tuples, Dictionary](#day-2-loops--iterations) | 🟡 Medium | `Day2.py` |
+| ⚪ Upcoming | **Day 3** | [Sets, Functions & Scope, Recursion](#day-3-lists--tuples) | 🟡 Medium | `Day3.py` |
+<!-- | ⚪ Upcoming | **Day 4** | [Recursion & BackTracking](#day-4-dictionaries--sets) | 🟡 Medium | `Day4.py` | -->
+<!-- | ⚪ Upcoming | **Day 5** | [File Handling & Exceptions](#day-5-functions--scope) | 🟡 Medium | `Day5.py` | -->
+<!-- | ⚪ Upcoming | **Day 6** | [Class & Objects](#day-6-file-handling--exceptions) | 🔴 Hard | `Day6.py` | -->
 
 ---
 
@@ -502,15 +501,7 @@ print(f"Grade: {grade}")
 
 ---
 
-### 🔗 External Resources
 
-- 📺 **Python Official Docs**: [Built-in Functions](https://docs.python.org/3/library/functions.html)
-- 📖 **Real Python**: [Python Print Function](https://realpython.com/python-print/)
-- 📖 **W3Schools Python**: [Tutorial with Interactive Examples](https://www.w3schools.com/python/)
-- 🎥 **YouTube**: "Python Basics" - Apna College
-- 💻 **Practice**: [HackerRank Python](https://www.hackerrank.com/domains/python)
-
----
 
 ### 📌 Key Takeaways (Day 1)
 
@@ -524,25 +515,380 @@ print(f"Grade: {grade}")
 💡 **String methods are powerful** — They transform and analyze text  
 
 ---
-<!-- 
-## Day 2: Loops & Iterations
 
-**Status**: ⚪ **UPCOMING** | **Difficulty**: 🟡 **Medium** | **File**: `Day2.py`
+## Day 2: Loops & Iterations, Lists & Tuples, Dictionary
+
+**Status**: 🔴 **COMPLETED** | **Difficulty**: 🟡 **Medium** | **File**: `Day2.py`
 
 ### 🎯 What You'll Learn
-- Master **for loops** for iterating sequences
+- Master **for loops** for iterating sequences and ranges
 - Understand **while loops** for condition-based repetition
-- Use **range()** function for numeric iterations
-- Control loops with **break** and **continue**
-- Implement **nested loops** for complex patterns
-- Work with **enumerate()** and **zip()**
-- Solve real problems: pattern printing, calculations, filtering
+- Control loops with **break**
+- Create and manipulate **lists**: append, sort, reverse, count, search
+- Combine lists with **concatenation** (`+`)
+- Work with **tuples** for fixed, ordered data
+- Create and use **dictionaries**: update, values(), items(), get()
+- Build collections dynamically from **user input inside loops**
+- Solve real problems: multiplication tables, permutations, frequency counters
 
-*(Details will be added as course progresses)*
+### 📚 Concepts Explained
+
+#### For Loops
+
+The **`for` loop** repeats a block of code for each item in a sequence — most commonly used with `range()`.
+
+```python
+num = int(input("Enter a num: "))
+
+for i in range(1, 11):
+    print(f"{num} x {i} = {num * i}")
+```
+
+**Key Features:**
+- 🔁 `range(1, 11)` generates numbers 1 through 10 (stop value excluded)
+- 🎯 Great for a known number of repetitions
+- ➕ Works directly on lists, strings, dictionaries, and any iterable
 
 ---
 
-## Day 3: Lists & Tuples
+#### While Loops & `break`
+
+A **`while` loop** repeats as long as a condition is `True`. **`break`** exits the loop early, regardless of the condition.
+
+```python
+i = 0
+while(i <= 5):
+    i += 1
+    if(i == 3):
+        break
+    print(i)
+# Output: 1  2   (loop stops before printing 3)
+```
+
+**Key Features:**
+- 🔄 Use `while` when you don't know the number of iterations in advance
+- ⛔ `break` immediately exits the nearest loop
+- ⚠️ Always update the loop variable inside the loop, or you'll get an infinite loop
+
+---
+
+#### Lists — Creating, Appending & Combining
+
+A **list** is an ordered, mutable collection.
+
+```python
+mov1 = input("Enter your fav movie 1: ")
+mov2 = input("Enter your fav movie 2: ")
+mov3 = input("Enter your fav movie 3: ")
+
+movieList = []
+movieList.append(mov1)
+movieList.append(mov2)
+movieList.append(mov3)
+print(movieList)
+```
+
+**Faster input using `map()` + `split()`:**
+```python
+moviesList = list(map(str, input().split()))
+print(moviesList)
+```
+
+**Concatenating two lists:**
+```python
+a = [1, 2]
+b = [3, 4]
+print(a + b)   # [1, 2, 3, 4]
+```
+
+---
+
+#### Lists — Built-in Methods
+
+```python
+arr = [100, 20, 30, 40, 50]
+
+arr.reverse()          # Reverses in place, returns None
+print(arr)              # [50, 40, 30, 20, 100]
+
+arr.sort(reverse=True)  # Sorts in place, returns None
+print(arr)
+
+print(arr.count(20))    # Counts occurrences of 20
+```
+
+**Key Features:**
+- 🔧 `.reverse()`, `.sort()`, `.append()` all modify the list **in place** and return `None`
+- 🚫 Never do `arr = arr.sort()` — it will make `arr` equal to `None`
+
+---
+
+#### Lists — Generating & Searching
+
+```python
+arr = []
+n = 10
+for i in range(1, n + 1):
+    arr.append(i * i)     # squares: 1, 4, 9, 16 ... 100
+
+target = int(input("Enter the number you want to search: "))
+
+if target in arr:
+    print(f"Target Found at index {arr.index(target)}")
+else:
+    print("Target NOT Found")
+```
+
+**Key Features:**
+- 🔍 `in` checks membership (returns `True`/`False`)
+- 📍 `.index(value)` returns the position of the first match
+
+---
+
+#### Loops — Sum of N Numbers
+
+```python
+n = int(input("Enter n: "))
+total = 0
+
+for i in range(n + 1):
+    total += i
+
+print(f"Sum = {total}")
+```
+
+---
+
+#### Loops — Permutation (nPr) using Factorials
+
+```python
+n = int(input("Enter n: "))
+r = int(input("Enter r: "))
+
+fact = 1
+for i in range(1, n + 1):
+    fact *= i
+num = fact
+
+fact = 1
+denom = n - r
+for i in range(1, denom + 1):
+    fact *= i
+denom = fact
+
+perm = num / denom
+print(f"Permutation = {perm}")
+```
+
+**Key Features:**
+- 🧮 Demonstrates reusing loops to compute factorials for a formula (nPr = n! / (n-r)!)
+- 🔁 Same loop pattern used twice for two different factorials
+
+---
+
+#### Tuples — Storing Fixed Data
+
+A **tuple** is like a list but **immutable** — once created, it can't be changed.
+
+```python
+name = input("Enter your name: ")
+age = input("Enter your age: ")
+branch = input("Enter your branch: ")
+
+tup = (name, age, branch)
+print(f"Name: {tup[0]}, Age: {tup[1]}, Branch: {tup[2]}")
+```
+
+**Key Features:**
+- 🔒 Tuples are indexed like lists (`tup[0]`, `tup[1]`...) but can't be modified after creation
+- 📦 Good for grouping related, fixed values together
+
+---
+
+#### Dictionaries — Structure, Update & Access
+
+A **dictionary** stores data as **key-value pairs**.
+
+```python
+myDict = {
+    'name': "Shivam",
+    'marks': {
+        'python': 99,
+        'webDev': 342,
+        'Java': 2
+    }
+}
+
+myDict.update({'isTrainer': True})   # Add a new key-value pair
+
+for i in myDict.values():
+    print(i)
+
+for i in myDict.items():
+    print(i[1])   # i is a (key, value) tuple
+
+print(myDict.get('names'))   # None — get() is safe, won't crash
+# print(myDict['names'])     # This would raise a KeyError
+```
+
+**Key Features:**
+- 🗂️ Dictionaries can be **nested** (a dict inside a dict)
+- ➕ `.update({key: value})` adds or overwrites a key
+- 🛡️ `.get(key)` returns `None` instead of crashing if the key doesn't exist — safer than `dict[key]`
+- 🔁 `.values()` iterates values, `.items()` iterates `(key, value)` pairs
+
+---
+
+#### Dictionaries — Building Dynamically in a Loop
+
+```python
+myDict = {}
+
+for i in range(3):
+    sub = input(f"Enter subject{i+1} name: ")
+    marks = int(input(f"Enter marks of {sub}: "))
+    myDict.update({sub: marks})
+
+print(myDict)
+```
+
+**Key Features:**
+- 🔁 Looping instead of writing repetitive `input()` calls follows the **DRY principle**
+- 📦 Builds up a dictionary one key-value pair at a time
+
+---
+
+#### Dictionaries — Frequency Counter
+
+A very common real-world pattern: counting how many times each item appears.
+
+```python
+arr = [1, 1, 2, 1, 3, 4, 1, 3, 4]
+freqCalc = {}
+
+for i in range(len(arr)):
+    if arr[i] in freqCalc:
+        freqCalc.update({arr[i]: freqCalc[arr[i]] + 1})
+    else:
+        freqCalc.update({arr[i]: 1})
+
+print(freqCalc)
+# Output: {1: 4, 2: 1, 3: 2, 4: 2}
+```
+
+**Key Features:**
+- 🧮 Classic "counter" pattern — check if key exists, increment or initialize
+- 🔑 Keys don't need to be strings — here they're integers
+
+---
+
+### 💻 Key Code Snippets from Day 2
+
+#### Multiplication Table
+```python
+num = int(input("Enter a num: "))
+for i in range(1, 11):
+    print(f"{num} x {i} = {num * i}")
+```
+
+#### While Loop with Break
+```python
+i = 0
+while(i <= 5):
+    i += 1
+    if(i == 3):
+        break
+    print(i)
+```
+
+#### List Search
+```python
+target = int(input("Enter the number you want to search: "))
+if target in arr:
+    print(f"Target Found at index {arr.index(target)}")
+else:
+    print("Target NOT Found")
+```
+
+#### Frequency Counter
+```python
+freqCalc = {}
+for i in range(len(arr)):
+    if arr[i] in freqCalc:
+        freqCalc.update({arr[i]: freqCalc[arr[i]] + 1})
+    else:
+        freqCalc.update({arr[i]: 1})
+print(freqCalc)
+```
+
+---
+
+### 🔢 Common Operations Reference
+
+| Operation | Example | Result | Notes |
+|-----------|---------|--------|-------|
+| **Append to list** | `arr.append(6)` | Adds `6` to end | Modifies in place |
+| **Reverse list** | `arr.reverse()` | Reverses order | Returns `None` |
+| **Sort list (desc)** | `arr.sort(reverse=True)` | Sorted descending | Returns `None` |
+| **Count in list** | `arr.count(x)` | Number of occurrences | — |
+| **Search in list** | `x in arr` | `True`/`False` | Membership check |
+| **Find index** | `arr.index(x)` | Position of `x` | Raises error if not found |
+| **List concat** | `a + b` | Combined list | Creates a new list |
+| **Dict update** | `d.update({k: v})` | Adds/overwrites key | — |
+| **Dict safe access** | `d.get(k)` | Value or `None` | Won't raise `KeyError` |
+| **Dict iterate values** | `d.values()` | All values | — |
+| **Dict iterate pairs** | `d.items()` | `(key, value)` pairs | — |
+
+---
+
+### 🧪 Practice Problems (Day 2)
+
+**🟢 Easy**
+1. Print a multiplication table for a user-given number
+2. Sum all numbers from 1 to N using a loop
+3. Reverse a list using `.reverse()`
+4. Search whether a number exists in a list using `in`
+
+**🟡 Medium**
+
+5. Build a list of movies from 3 separate inputs using `.append()`
+6. Take space-separated input and convert it into a list using `split()`
+7. Store a person's name, age, and branch in a tuple and print using indexing
+8. Build a dictionary of 3 subjects and marks using a loop instead of repeating code
+
+**🔴 Hard**
+
+9. Calculate permutation (nPr) using factorial logic with nested loops
+10. Build a frequency counter dictionary from a list with duplicate values
+11. Generate a list of squares (1² to N²) then search for a target and return its index
+
+---
+
+### ⚠️ Common Mistakes
+
+| ❌ Mistake | ✅ Solution | 💭 Why It Matters |
+|-----------|-----------|------------------|
+| `arr = arr.sort()` | Just call `arr.sort()` on its own line | In-place methods return `None`, overwriting your list |
+| `for i in arr: print(arr[i])` | `for i in arr: print(i)` | `i` is already the *value*, not the index — using it as an index can throw `IndexError` |
+| `dict['missing_key']` | `dict.get('missing_key')` | `[]` raises `KeyError`; `.get()` returns `None` safely |
+| Forgetting loop variable update in `while` | Always update the condition variable inside the loop | Otherwise causes an infinite loop |
+| Re-typing input 3+ times | Use a `for` loop to collect repeated input | DRY principle — less code, fewer bugs |
+
+---
+
+### 📌 Key Takeaways (Day 2)
+
+💡 **`for` loops are for known counts, `while` loops are for conditions** — pick based on what you're repeating
+💡 **`break` exits a loop immediately** — useful for early stopping
+💡 **List methods like `.sort()` and `.reverse()` return `None`** — they change the list, don't replace it
+💡 **`in` and `.index()` make searching lists simple** — no manual loop needed
+💡 **Tuples are like locked lists** — great for fixed, related data
+💡 **`.get()` is safer than `[]` for dictionaries** — avoids crashing on missing keys
+💡 **Loops + dictionaries = powerful patterns** — like building a frequency counter in a few lines
+💡 **DRY your input code** — loops beat copy-pasting `input()` three times
+
+
+<!-- ## Day 3: Lists & Tuples
 
 **Status**: ⚪ **UPCOMING** | **Difficulty**: 🟡 **Medium** | **File**: `Day3.py`
 
@@ -555,10 +901,9 @@ print(f"Grade: {grade}")
 - List comprehension for elegant code
 - Work with multi-dimensional lists (2D lists)
 
-*(Details will be added as course progresses)*
+*(Details will be added as course progresses)* -->
 
----
-
+<!-- 
 ## Day 4: Dictionaries & Sets
 
 **Status**: ⚪ **UPCOMING** | **Difficulty**: 🟡 **Medium** | **File**: `Day4.py`
@@ -574,9 +919,9 @@ print(f"Grade: {grade}")
 
 *(Details will be added as course progresses)*
 
----
+--- -->
 
-## Day 5: Functions & Scope
+<!-- ## Day 5: Functions & Scope
 
 **Status**: ⚪ **UPCOMING** | **Difficulty**: 🟡 **Medium** | **File**: `Day5.py`
 
@@ -591,9 +936,9 @@ print(f"Grade: {grade}")
 
 *(Details will be added as course progresses)*
 
----
+--- -->
 
-## Day 6: File Handling & Exceptions
+<!-- ## Day 6: File Handling & Exceptions
 
 **Status**: ⚪ **UPCOMING** | **Difficulty**: 🔴 **Hard** | **File**: `Day6.py`
 
@@ -608,23 +953,9 @@ print(f"Grade: {grade}")
 
 *(Details will be added as course progresses)*
 
----
-
-## Day 7: OOP Basics & Capstone Project
-
-**Status**: ⚪ **UPCOMING** | **Difficulty**: 🔴 **Hard** | **File**: `Day7.py`
-
-### 🎯 What You'll Learn
-- **Object-Oriented Programming** basics
-- **Classes** and **objects** (instances)
-- **Attributes** and **methods**
-- **Constructors** (`__init__`)
-- Inheritance (basics)
-- **Capstone project**: Apply everything learned!
-
-*(Details will be added as course progresses)*
-
 --- -->
+
+---
 
 # 🔧 Reference Materials
 
@@ -834,6 +1165,16 @@ age = -5  # Edge case: invalid
 3. 🎯 **Identify data structures** - List? Dictionary? Something else?
 4. ⏱️ **Consider efficiency** - Will it work for large inputs?
 
+### 🔗 External Resources
+
+- 📺 **Python Official Docs**: [Built-in Functions](https://docs.python.org/3/library/functions.html)
+- 📖 **Real Python**: [Python Print Function](https://realpython.com/python-print/)
+- 📖 **W3Schools Python**: [Tutorial with Interactive Examples](https://www.w3schools.com/python/)
+- 🎥 **YouTube**: "Python Basics" - Apna College
+- 💻 **Practice**: [HackerRank Python](https://www.hackerrank.com/domains/python)
+
+---
+
 ### While Writing Code
 1. 📝 **Use clear names** - `student_age` > `a`
 2. 💬 **Add comments** - Explain WHY, not WHAT (code shows WHAT)
@@ -978,6 +1319,6 @@ This educational material is provided for learning purposes at SBMP College of E
 
 Keep coding, keep learning, keep growing! 💪
 
-[🔝 Back to Top](#-vidhyavardhhinis-college-of-engineering)
+[🔝 Back to Top](#-SBMP-College-of-Engineering)
 
 </div>
