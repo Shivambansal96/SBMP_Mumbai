@@ -27,9 +27,9 @@ This repository is your complete companion for understanding Python fundamentals
 | Status | Day | Topic | Difficulty | File |
 |--------|-----|-------|-----------|------|
 | 🔴 Done | **Day 1** | [Print, Variables, Data Types & Conditionals](#day-1-print-variables-data-types--conditionals) | 🟢 Easy | `Day1.py` |
-| 🔴 Done | **Day 2** | [Loops & Iterations, Lists & Tuples, Dictionary](#day-2-loops--iterations) | 🟡 Medium | `Day2.py` |
-| ⚪ Upcoming | **Day 3** | [Sets, Functions & Scope, Recursion](#day-3-lists--tuples) | 🟡 Medium | `Day3.py` |
-<!-- | ⚪ Upcoming | **Day 4** | [Recursion & BackTracking](#day-4-dictionaries--sets) | 🟡 Medium | `Day4.py` | -->
+| 🔴 Done | **Day 2** | [Loops & Iterations, Lists & Tuples, Dictionary](#day-2-loops--iterations-lists--tuples-dictionary) | 🟡 Medium | `Day2.py` |
+| 🔴 Done | **Day 3** | [Sets, Functions & Scope, Recursion](#day-3-sets-functions--scope-recursion) | 🟡 Medium | `Day3.py` |
+| ⚪ Upcoming | **Day 4** | [Recursion & BackTracking, lambda functions, HOF, File Handling](#day-4-recursion--backtracking) | 🟡 Medium | `Day4.py` |
 <!-- | ⚪ Upcoming | **Day 5** | [File Handling & Exceptions](#day-5-functions--scope) | 🟡 Medium | `Day5.py` | -->
 <!-- | ⚪ Upcoming | **Day 6** | [Class & Objects](#day-6-file-handling--exceptions) | 🔴 Hard | `Day6.py` | -->
 
@@ -338,6 +338,7 @@ print(text.swapcase())        # "  hELLO wORLD pYTHON  "
 ```
 
 ---
+
 
 ### 💻 Key Code Snippets from Day 1
 
@@ -887,22 +888,400 @@ print(freqCalc)
 💡 **Loops + dictionaries = powerful patterns** — like building a frequency counter in a few lines<br>
 💡 **DRY your input code** — loops beat copy-pasting `input()` three times<br>
 
+## Day 3: Sets, Functions & Scope, Recursion
 
-<!-- ## Day 3: Lists & Tuples
-
-**Status**: ⚪ **UPCOMING** | **Difficulty**: 🟡 **Medium** | **File**: `Day3.py`
+**Status**: 🔴 **COMPLETED** | **Difficulty**: 🟡 **Medium** | **File**: `Day3.py`
 
 ### 🎯 What You'll Learn
-- Create and manipulate **lists** (mutable sequences)
-- Understand **list methods**: append, remove, insert, pop, sort
-- Slice lists with **indexing and slicing syntax**
-- Work with **tuples** (immutable sequences)
-- Understand when to use **list vs tuple**
-- List comprehension for elegant code
-- Work with multi-dimensional lists (2D lists)
+- Create and use **sets** (unordered, unique elements)
+- Combine **sets, tuples, and lists** to solve real grouping problems
+- Define **functions** with `def`, parameters, and `return`
+- Understand **functions calling other functions**
+- Grasp **scope** — variables local to a function vs. the outside world
+- Understand **recursion**: a function calling itself
+- Visualize the **implicit call stack** — how recursive calls stack up and unwind
+- Trace execution order with "before" and "after" print statements
 
-*(Details will be added as course progresses)* -->
+### 📚 Concepts Explained
 
+#### Bonus: Form Validator (Conditionals Recap)
+
+A warm-up problem combining string checks and flags — validates a name, email, and password using multiple independent conditions before confirming a submission.
+
+> **Question:** Take a user's full name, email, and password as input. Validate that: the full name contains a space (i.e., has a first and last name), the email contains `@` and ends with `.com`, and the password is at least 6 characters long with no spaces. If all checks pass, confirm the form was submitted successfully; otherwise print which parts failed.
+
+```python
+name = input("Enter your Name: ").strip()
+email = input("Enter your Email: ")
+password = input("Enter your Password: ")
+flag = True
+
+if ' ' not in name:
+    flag = False
+    print("Invalid Full Name")
+
+if '@' not in email or not email.endswith(".com"):
+    flag = False
+    print("Invalid Email Address")
+
+if len(password) < 6 or ' ' in password:
+    flag = False
+    print("Invalid Password")
+
+if flag:
+    print("Form Submitted Successfully.")
+```
+
+**Key Features:**
+- 🚩 A **flag variable** (`flag = True`) tracks overall validity across multiple independent checks, instead of nesting conditions
+- 🔗 Each `if` block runs regardless of the others — every failing rule gets reported, not just the first one
+- 🧵 `.strip()` removes leading/trailing whitespace before validation
+- 🔤 `.endswith(".com")` checks the tail of a string — useful for format validation
+
+---
+
+#### Sets — Unique, Unordered Collections
+
+A **set** automatically removes duplicates and has no guaranteed order.
+
+```python
+newSet = {8, 2, 2, 3, 1, 4}
+print(newSet)          # {1, 2, 3, 4, 8}  -> duplicate 2 removed automatically
+
+newSet.add(10)          # Adds an element
+newSet.pop()             # Removes an arbitrary element (sets are unordered)
+print(newSet)
+```
+
+**Key Features:**
+- 🚫 Duplicates are automatically discarded
+- 🔀 No indexing — order isn't guaranteed, so no `newSet[0]`
+- ➕ `.add()` inserts, `.pop()` removes an arbitrary item
+
+---
+
+#### Sets + Tuples + Loops — Grouping & Averaging
+
+A practical combo: use a set to get unique names, then loop through the original data to calculate a value per group.
+
+> **Question:** You're given a list of tuples, where each tuple contains a student's name and their marks. Some names are repeated (a student may appear more than once with different marks). Using a set to identify each unique student, calculate and print the **average marks** for every student — adding up all their marks and dividing by how many times they appear.
+
+```python
+studentList = [("Shivam", 98), ("Mohini", 100), ("Shivam", 90)]
+
+names = set()
+for i in studentList:
+    names.add(i[0])          # collect unique student names
+
+for i in names:
+    totalSum = 0
+    count = 0
+
+    for name, mark in studentList:
+        if name == i:
+            totalSum += mark
+            count += 1
+
+    print(f"Average of {i} = {totalSum / count}")
+```
+
+**Key Features:**
+- 🧩 Sets are perfect for de-duplicating before grouping
+- 🔓 Tuple unpacking directly in a `for` loop: `for name, mark in studentList`
+- 📊 A common real-world pattern: group-by + aggregate, without libraries
+
+---
+
+#### Functions — Definition, Parameters & Return
+
+A **function** is a reusable block of code defined with `def`.
+
+```python
+def listLen(arr):
+    print(len(arr))
+
+arr = [24, 64, 23, 76]
+listLen(arr)
+```
+
+**Functions that `return` a value (vs. just printing):**
+```python
+def factorial(n):
+    fact = 1
+    for i in range(1, n + 1):
+        fact *= i
+    return fact
+
+n = 5
+print(f"Factorial of {n} = {factorial(n)}")
+```
+
+```python
+def usdConversionToINR(dollars):
+    return dollars * 90
+
+dollars = float(input("Enter the number of dollars: "))
+print(f"${dollars} = Rs {usdConversionToINR(dollars)}")
+```
+
+**Key Features:**
+- 📥 Parameters (`arr`, `n`, `dollars`) let a function work on different inputs
+- 📤 `return` sends a value back to the caller — `print()` inside a function does not
+- 🔁 A function that returns a value can be reused inside calculations (`factorial(n)`), unlike one that only prints
+
+---
+
+#### Functions Calling Functions — Scope in Action
+
+Functions can call other functions, and each function has its own **local scope** — variables defined inside one function aren't visible in another unless passed in or returned.
+
+```python
+def factorial(n):
+    fact = 1
+    for i in range(1, n + 1):
+        fact *= i
+    return fact
+
+
+def pORc():
+    n = int(input("Enter value of n: "))
+    r = int(input("Enter value of r: "))
+    userInput = int(input("What do you want to perform: \n1. Permutation\n2. Combination = "))
+
+    num = factorial(n)
+    denom = factorial(n - r)
+
+    if userInput == 1:
+        perm = num / denom
+        print(f"Permutation = {perm}")
+    elif userInput == 2:
+        comb = num / denom * factorial(r)
+        print(f"Combination = {comb}")
+    else:
+        print("Invalid Input")
+
+
+pORc()
+```
+
+**Key Features:**
+- 🧠 `pORc()` doesn't know how `factorial()` works internally — it just calls it and uses the result (**abstraction**)
+- 🔒 `n`, `r`, `num`, `denom` inside `pORc()` are local to `pORc()` — they don't exist outside it
+- ♻️ `factorial()` is reused twice inside the same function, and once more inside the `elif` branch
+
+---
+
+#### Recursion — A Function Calling Itself
+
+**Recursion** is when a function calls itself to solve a smaller version of the same problem. Every recursive function needs a **base case** to stop.
+
+```python
+def printNTo1(n):
+    if n == 1:
+        return          # base case — stops the recursion
+    print(n)
+    printNTo1(n - 1)     # recursive call — smaller problem
+
+printNTo1(3)
+# Output: 3  2
+```
+
+**Key Features:**
+- 🛑 The `if n == 1: return` is the **base case** — without it, this would recurse forever (`RecursionError`)
+- 🔽 Each call works on a smaller input (`n - 1`) moving toward the base case
+
+---
+
+#### The Implicit Call Stack
+
+Every function call is pushed onto a **call stack**. Recursive calls stack up, then unwind in reverse order once the base case is hit — this is why code *before* the recursive call runs top-down, and code *after* it runs bottom-up.
+
+```python
+def learningCallStack(n):
+    if n == 0:
+        return
+
+    print(f"INSIDE Function, BEFORE n = {n}")
+    learningCallStack(n - 1)
+    print(f"INSIDE Function, AFTER n = {n}")
+
+print("Code Starts")
+learningCallStack(3)
+print("Learnt Recursion through Call Stack !!!")
+```
+
+**Output:**
+```
+Code Starts
+INSIDE Function, BEFORE n = 3
+INSIDE Function, BEFORE n = 2
+INSIDE Function, BEFORE n = 1
+INSIDE Function, AFTER n = 1
+INSIDE Function, AFTER n = 2
+INSIDE Function, AFTER n = 3
+Learnt Recursion through Call Stack !!!
+```
+
+**Key Features:**
+- 📚 Each call to `learningCallStack()` is **pushed** onto the stack before its recursive call, and **popped** off after it returns
+- ⬇️⬆️ "BEFORE" lines print in descending order (3, 2, 1) as calls stack up; "AFTER" lines print in ascending order (1, 2, 3) as they unwind
+- 🧠 This is the core mental model for understanding recursion — every recursive call waits, on the stack, for the ones after it to finish
+
+---
+
+#### Recursion with Two Parameters
+
+Recursion doesn't have to count down — it can count up too, and can carry along extra parameters for context (here, the upper limit `n` is passed unchanged through every call).
+
+```python
+def print1ToN(i, n):
+    if i == n + 1:
+        return
+    print(i)
+    print1ToN(i + 1, n)
+
+print1ToN(1, 5)
+# Output: 1  2  3  4  5
+```
+
+**Key Features:**
+- ⬆️ Counts upward instead of downward by incrementing `i` instead of decrementing `n`
+- 🎯 `n` stays constant across all calls — it's just there to define the stopping condition
+
+---
+
+### 💻 Key Code Snippets from Day 3
+
+#### Form Validator
+```python
+flag = True
+if ' ' not in name:
+    flag = False
+    print("Invalid Full Name")
+if '@' not in email or not email.endswith(".com"):
+    flag = False
+    print("Invalid Email Address")
+if len(password) < 6 or ' ' in password:
+    flag = False
+    print("Invalid Password")
+if flag:
+    print("Form Submitted Successfully.")
+```
+
+#### Set Basics
+```python
+newSet = {8, 2, 2, 3, 1, 4}
+newSet.add(10)
+newSet.pop()
+print(newSet)
+```
+
+#### Group & Average Using Set + Tuples
+```python
+names = set()
+for i in studentList:
+    names.add(i[0])
+
+for i in names:
+    totalSum, count = 0, 0
+    for name, mark in studentList:
+        if name == i:
+            totalSum += mark
+            count += 1
+    print(f"Average of {i} = {totalSum / count}")
+```
+
+#### Function with Return
+```python
+def factorial(n):
+    fact = 1
+    for i in range(1, n + 1):
+        fact *= i
+    return fact
+```
+
+#### Recursion — Countdown
+```python
+def printNTo1(n):
+    if n == 1:
+        return
+    print(n)
+    printNTo1(n - 1)
+```
+
+#### Recursion — Call Stack Demo
+```python
+def learningCallStack(n):
+    if n == 0:
+        return
+    print(f"BEFORE n = {n}")
+    learningCallStack(n - 1)
+    print(f"AFTER n = {n}")
+```
+
+---
+
+### 🔢 Common Operations Reference
+
+| Operation | Example | Result | Notes |
+|-----------|---------|--------|-------|
+| **Create set** | `{1, 2, 2, 3}` | `{1, 2, 3}` | Duplicates auto-removed |
+| **Add to set** | `s.add(x)` | Inserts `x` | No effect if already present |
+| **Remove from set** | `s.pop()` | Removes an item | Arbitrary — sets are unordered |
+| **Define function** | `def f(x): return x` | Reusable block | `return` sends a value back |
+| **Call function** | `f(5)` | Runs the function body | Local variables stay inside |
+| **Base case** | `if n == 0: return` | Stops recursion | Required in every recursive function |
+| **Recursive call** | `f(n - 1)` | Calls itself | Moves toward the base case |
+
+---
+
+### 🧪 Practice Problems (Day 3)
+
+**🟢 Easy**
+
+1. Create a set of numbers with duplicates and print the unique result
+2. Write a function that takes a list and prints its length
+3. Write a recursive function that counts down from N to 1
+
+**🟡 Medium**
+
+4. Build a form validator that checks a full name (contains a space), an email (`@` and `.com`), and a password (≥6 chars, no spaces), reporting every failing rule
+5. Write a function that converts USD to INR and returns the result
+6. Use a set to extract unique names from a list of (name, marks) tuples, then calculate each person's average
+7. Write a recursive function `print1ToN(i, n)` that counts up from `i` to `n`
+
+**🔴 Hard**
+
+8. Build a function `pORc()` that asks the user for `n`, `r`, and a choice, then calculates Permutation or Combination using a reusable `factorial()` function
+9. Trace and print the call stack manually — print a "before" message before the recursive call and an "after" message after it, for `n = 3`, and predict the output order before running it
+
+---
+
+### ⚠️ Common Mistakes
+
+| ❌ Mistake | ✅ Solution | 💭 Why It Matters |
+|-----------|-----------|------------------|
+| Forgetting a base case in recursion | Always include `if condition: return` | Without it, you get infinite recursion → `RecursionError: maximum recursion depth exceeded` |
+| Indexing into a set `s[0]` | Convert to a list first if you need order: `list(s)[0]` | Sets are unordered and unindexed |
+| Using `print()` instead of `return` inside a function meant to give a value back | Use `return`, then `print()` the result outside | A function that only prints can't be used in further calculations |
+| Assuming variables inside a function exist outside it | Pass values as parameters or `return` them | Function-local variables are out of scope elsewhere |
+| Recursive call not moving toward the base case | Make sure the argument changes each call (`n - 1`, `i + 1`) | Otherwise the base case is never reached |
+
+---
+
+### 📌 Key Takeaways (Day 3)
+
+💡 **Sets remove duplicates automatically** — great for uniqueness problems <br>
+💡 **Sets + tuples + loops = group-by logic** — no external library needed <br>
+💡 **`return` gives a value back; `print()` just displays it** — very different purposes <br>
+💡 **Functions can call other functions** — build complex logic from small reusable pieces <br>
+💡 **Scope keeps variables contained** — a function's local variables don't leak out <br>
+💡 **Every recursive function needs a base case** — or it runs forever <br>
+💡 **The call stack explains recursion's order of execution** — calls stack up, then unwind in reverse <br>
+💡 **Recursion can count up or down** — the direction depends on how you change the parameter each call <br>
+
+
+ 
 <!-- 
 ## Day 4: Dictionaries & Sets
 
