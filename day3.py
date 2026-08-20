@@ -171,7 +171,7 @@
 def print1ToN(i, n):
 
     if(i == n+1):
-        return 
+        return
 
     print(i)
     print1ToN(i+1, n)
