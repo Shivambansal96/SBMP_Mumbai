@@ -29,8 +29,8 @@ This repository is your complete companion for understanding Python fundamentals
 | 🔴 Done | **Day 1** | [Print, Variables, Data Types & Conditionals](#day-1-print-variables-data-types--conditionals) | 🟢 Easy | `Day1.py` |
 | 🔴 Done | **Day 2** | [Loops & Iterations, Lists & Tuples, Dictionary](#day-2-loops--iterations-lists--tuples-dictionary) | 🟡 Medium | `Day2.py` |
 | 🔴 Done | **Day 3** | [Sets, Functions & Scope, Recursion](#day-3-sets-functions--scope-recursion) | 🟡 Medium | `Day3.py` |
-| ⚪ Upcoming | **Day 4** | [Recursion & BackTracking, lambda functions, HOF, File Handling](#day-4-recursion--backtracking) | 🟡 Medium | `Day4.py` |
-<!-- | ⚪ Upcoming | **Day 5** | [File Handling & Exceptions](#day-5-functions--scope) | 🟡 Medium | `Day5.py` | -->
+| 🔴 Done | **Day 4** | [Recursion & BackTracking, Exception Handling](#day-4-recursion--backtracking) | 🟡 Medium | `Day4.py` |
+| ⚪ Upcoming | **Day 5** | [File Handling, lambda functions, HOF](#day-5-functions--scope) | 🟡 Medium | `Day5.py` |
 <!-- | ⚪ Upcoming | **Day 6** | [Class & Objects](#day-6-file-handling--exceptions) | 🔴 Hard | `Day6.py` | -->
 
 ---
@@ -1282,23 +1282,314 @@ def learningCallStack(n):
 
 
  
-<!-- 
-## Day 4: Dictionaries & Sets
+## Day 4: Recursion & BackTracking
 
-**Status**: ⚪ **UPCOMING** | **Difficulty**: 🟡 **Medium** | **File**: `Day4.py`
+**Status**: 🔴 **COMPLETED** | **Difficulty**: 🟡 **Medium** | **File**: `Day4.py`
 
 ### 🎯 What You'll Learn
-- Create and use **dictionaries** (key-value pairs)
-- Dictionary methods: keys(), values(), items(), get()
-- Iterate through dictionaries
-- Understand **sets** (unique elements)
-- Set operations: union, intersection, difference
-- Dictionary vs Set: use cases and differences
-- Nested data structures
+- Continue **recursion** — apply it to iterate over lists
+- Understand **backtracking** as an extension of recursion (explore, branch, combine results)
+- Solve the classic **"Count Total Paths in a Maze"** problem using recursion
+- Solve the **Spiral Matrix** problem using recursive boundary shrinking
+- Handle runtime errors gracefully with **try-except**
+- Catch **specific exceptions** (`ValueError`, `ZeroDivisionError`) vs. generic ones
+- Use **`raise`** to manually trigger a custom exception
 
-*(Details will be added as course progresses)*
+### 📚 Concepts Explained
 
---- -->
+#### Recursion — Iterating Through a List
+
+Recursion can replace a `for` loop — instead of looping, the function calls itself with an incremented index until it reaches the end of the list.
+
+```python
+def printElementsOfList(arr, i):
+    if i == len(arr):
+        return
+
+    print(arr[i])
+    printElementsOfList(arr, i + 1)
+
+arr = [10, 20, 12, 31]
+printElementsOfList(arr, 0)
+```
+
+**Key Features:**
+- 🛑 Base case: `i == len(arr)` — stops once every index has been visited
+- ⬆️ `i + 1` moves the recursion toward the base case, just like a loop's increment
+- 🔁 Any `for` loop over a fixed range can, in principle, be rewritten recursively
+
+---
+
+#### Backtracking — Count Total Paths in a Maze
+
+**Backtracking** is recursion where, at each step, you explore multiple possible choices (branches) and combine their results. This is the classic "count paths from top-left to bottom-right of a grid, moving only right or down" problem.
+
+> **Question:** Given a grid of size `n x m`, count the total number of unique paths from the top-left cell `(0, 0)` to the bottom-right cell `(n-1, m-1)`, if you can only move **right** or **down** at each step.
+
+```python
+def countTotalPaths(i, j, n, m):
+    # Dead End — went out of bounds
+    if i == n or j == m:
+        return 0
+    # Destination reached
+    if i == n - 1 and j == m - 1:
+        return 1
+
+    # Move Rightwards
+    rightWards = countTotalPaths(i, j + 1, n, m)
+    # Move Downwards
+    downWards = countTotalPaths(i + 1, j, n, m)
+    return rightWards + downWards
+
+
+n = 3
+m = 3
+print(f"Total paths = {countTotalPaths(0, 0, n, m)}")
+```
+
+**Key Features:**
+- 🚧 Two base cases: a **dead end** (out of bounds → `0` paths) and the **destination** (→ `1` path)
+- 🌳 Every call branches into two recursive calls (right and down) — this branching is what makes it backtracking, not simple recursion
+- ➕ Results from both branches are added together to get the total count
+
+---
+
+#### Backtracking — Spiral Matrix
+
+Print a 2D matrix in spiral order (outer ring first, then shrink inward) using recursion instead of manual loop-counters.
+
+```python
+def spiralMatrix(mat, top, left, right, bottom):
+    if top > bottom or left > right:
+        return
+
+    # TOP -> left to Right
+    for i in range(left, right + 1):
+        print(mat[top][i], end=" ")
+
+    # RIGHT -> top to bottom
+    for i in range(top + 1, bottom + 1):
+        print(mat[i][right], end=" ")
+
+    # BOTTOM <- right to left
+    for i in range(right - 1, left - 1, -1):
+        print(mat[bottom][i], end=" ")
+
+    # LEFT <- bottom to top
+    for i in range(bottom - 1, top, -1):
+        print(mat[i][left], end=" ")
+
+    spiralMatrix(mat, top + 1, left + 1, right - 1, bottom - 1)
+
+
+mat = [
+    [1,  2,  3,  4],
+    [12, 13, 14, 5],
+    [11, 16, 15, 6],
+    [10,  9,  8, 7],
+]
+
+n = len(mat) - 1
+m = len(mat[0]) - 1
+
+spiralMatrix(mat, 0, 0, n, m)
+```
+
+**Key Features:**
+- 🔲 Four boundaries (`top`, `left`, `right`, `bottom`) define the current "ring" of the matrix being printed
+- 🌀 Each recursive call shrinks the ring inward by 1 on all four sides: `top+1, left+1, right-1, bottom-1`
+- 🛑 Base case: `top > bottom or left > right` — stops once the boundaries cross (no ring left to print)
+
+---
+
+#### Exception Handling — Basic try-except
+
+Wrap risky code in a **`try`** block; if it fails, the matching **`except`** block runs instead of crashing the program.
+
+```python
+try:
+    a = int(input("Enter a number:"))
+    for i in range(1, 11):
+        print(a * i)
+
+except ValueError:
+    print("Input has to be a number")
+```
+
+**Catching the exception object itself with `Exception as e`:**
+```python
+try:
+    a = int(input("Enter a number:"))
+    for i in range(1, 11):
+        print(a * i)
+
+except Exception as e:
+    print("Input has to be a number")
+    print(e)
+```
+
+**Key Features:**
+- 🎯 `except ValueError` only catches that specific error (e.g., typing letters instead of a number)
+- 🧾 `except Exception as e` catches *any* exception and lets you inspect the actual error message via `e`
+- ⚖️ Prefer specific exceptions over a bare `except Exception` where possible — it avoids silently swallowing unrelated bugs
+
+---
+
+#### Exception Handling — Manually Raising an Exception
+
+**`raise`** lets you manually trigger an exception, even a custom message, instead of waiting for Python to raise one naturally.
+
+```python
+try:
+    a = int(input("Enter a number:"))
+    for i in range(1, 11):
+        print(a * i)
+
+except:
+    raise KeyError('Naaam nahi daalna h')
+```
+
+**Key Features:**
+- 🚨 `raise` inside an `except` block re-throws a **different** exception than the one that was caught
+- ⚠️ A bare `except:` (no exception type) catches *everything*, including things you might not want to catch — generally avoid unless intentional
+
+---
+
+#### Exception Handling — Multiple `except` Blocks
+
+You can catch different exceptions separately and respond to each with a specific message.
+
+```python
+try:
+    a = int(input("Enter a number:"))
+    b = int(input("Enter another number:"))
+    print(a / b)
+
+except ValueError:
+    print("Input has to be a number")
+
+except ZeroDivisionError:
+    print("Number cannot be divisible by 0.")
+```
+
+**Key Features:**
+- 🎯 Python checks `except` blocks top-to-bottom and runs the **first matching one**
+- 🧩 `ValueError` catches bad input (non-numeric text); `ZeroDivisionError` catches dividing by zero — two completely different failure modes, handled separately
+- ✅ This is the most "production-realistic" version of the exercises today — specific, readable error handling
+
+---
+
+### 💻 Key Code Snippets from Day 4
+
+#### Recursive List Printing
+```python
+def printElementsOfList(arr, i):
+    if i == len(arr):
+        return
+
+    print(arr[i])
+
+    printElementsOfList(arr, i + 1)
+```
+
+#### Count Total Paths (Backtracking)
+```python
+def countTotalPaths(i, j, n, m):
+    if i == n or j == m:
+        return 0
+
+    if i == n - 1 and j == m - 1:
+        return 1
+
+    return countTotalPaths(i, j + 1, n, m) + countTotalPaths(i + 1, j, n, m)
+```
+
+#### Spiral Matrix (Backtracking)
+```python
+def spiralMatrix(mat, top, left, right, bottom):
+    if top > bottom or left > right:
+        return
+
+    # print top, right, bottom, left edges...
+    spiralMatrix(mat, top + 1, left + 1, right - 1, bottom - 1)
+```
+
+#### Multiple Except Blocks
+```python
+try:
+    a = int(input("Enter a number:"))
+    b = int(input("Enter another number:"))
+    print(a / b)
+
+except ValueError:
+    print("Input has to be a number")
+
+except ZeroDivisionError:
+    print("Number cannot be divisible by 0.")
+```
+
+---
+
+### 🔢 Common Operations Reference
+
+| Operation | Example | Result | Notes |
+|-----------|---------|--------|-------|
+| **Base case (stop)** | `if i == len(arr): return` | Ends recursion | Required to avoid infinite recursion |
+| **Branching recursion** | `f(i, j+1) + f(i+1, j)` | Combines multiple paths | Core idea of backtracking |
+| **Shrinking boundaries** | `spiralMatrix(mat, top+1, ...)` | Recurses on a smaller sub-problem | Common pattern for grid/matrix recursion |
+| **Catch specific error** | `except ValueError:` | Runs only for that error type | More precise than catching everything |
+| **Catch + inspect error** | `except Exception as e:` | `e` holds the error message | Useful for debugging |
+| **Manually raise error** | `raise KeyError('msg')` | Throws a custom exception | Use for intentional, controlled failures |
+| **Bare except** | `except:` | Catches all errors | ⚠️ Use sparingly — hides the real error type |
+
+---
+
+### 🧪 Practice Problems (Day 4)
+
+**🟢 Easy**
+
+1. Recursively print all elements of a list without using a `for` loop
+2. Write a try-except block that catches invalid (non-numeric) input for a single number
+3. Write a try-except block that catches division by zero
+
+**🟡 Medium**
+
+4. Count the total number of unique paths from the top-left to bottom-right of an `n x m` grid, moving only right or down
+5. Combine `ValueError` and `ZeroDivisionError` handling in one try block with two separate `except` blocks
+6. Use `raise` to manually throw a custom exception inside an `except` block
+
+**🔴 Hard**
+
+7. Print a 2D matrix in spiral order using recursion and four shrinking boundaries (top, left, right, bottom)
+8. Modify `countTotalPaths` to also print one valid path (not just count them)
+9. Modify `spiralMatrix` to return a list of the spiral-order elements instead of printing them directly
+
+---
+
+### ⚠️ Common Mistakes
+
+| ❌ Mistake | ✅ Solution | 💭 Why It Matters |
+|-----------|-----------|------------------|
+| Using `&` instead of `and` for logical conditions | `if i == n-1 and j == m-1:` not `i == n-1 & j == m-1` | `&` is bitwise AND with **higher precedence** than `==` in Python — the expression doesn't evaluate the way it looks like it does, and can silently produce wrong results |
+| Missing a base case in backtracking | Always define both a "dead end" and a "destination" base case | Without a proper stopping condition, recursive branching never terminates |
+| Using a bare `except:` | Catch specific exceptions (`ValueError`, `ZeroDivisionError`, etc.) | Bare `except` hides bugs by catching errors you didn't anticipate |
+| Forgetting `except` order matters | Put more specific exceptions before general ones | Python uses the first matching `except` block, top to bottom |
+| Confusing `raise` with `except` | `raise` throws a new/custom exception; `except` catches an existing one | They serve opposite purposes and are often used together |
+
+---
+
+### 📌 Key Takeaways (Day 4)
+
+💡 **Recursion can replace loops entirely** — even simple list iteration <br>
+💡 **Backtracking = recursion that branches** — explore multiple choices, then combine the results <br>
+💡 **Every backtracking problem needs clear base cases** — a "failure" case and a "success" case <br>
+💡 **Shrinking boundaries is a common recursive pattern** — especially for grid/matrix problems <br>
+💡 **`&` is not `and`** — bitwise operators and logical operators behave very differently in conditions <br>
+💡 **`try-except` prevents crashes** — catch errors instead of letting the program stop <br>
+💡 **Specific exceptions > bare except** — `ValueError`, `ZeroDivisionError` etc. give clearer, safer error handling <br>
+💡 **`raise` lets you throw your own exceptions** — useful for enforcing custom rules <br>
+
+---
 
 <!-- ## Day 5: Functions & Scope
 
