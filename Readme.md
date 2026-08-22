@@ -30,8 +30,8 @@ This repository is your complete companion for understanding Python fundamentals
 | 🔴 Done | **Day 2** | [Loops & Iterations, Lists & Tuples, Dictionary](#day-2-loops--iterations-lists--tuples-dictionary) | 🟡 Medium | `Day2.py` |
 | 🔴 Done | **Day 3** | [Sets, Functions & Scope, Recursion](#day-3-sets-functions--scope-recursion) | 🟡 Medium | `Day3.py` |
 | 🔴 Done | **Day 4** | [Recursion & BackTracking, Exception Handling](#day-4-recursion--backtracking) | 🟡 Medium | `Day4.py` |
-| ⚪ Upcoming | **Day 5** | [File Handling, lambda functions, HOF](#day-5-functions--scope) | 🟡 Medium | `Day5.py` |
-<!-- | ⚪ Upcoming | **Day 6** | [Class & Objects](#day-6-file-handling--exceptions) | 🔴 Hard | `Day6.py` | -->
+| ⚪ Upcoming | **Day 5** | [Exception Handling, HOF (Map, Filter, Reduce), Class & Objects](#day-5-functions--scope) | 🟡 Medium | `Day5.py` |
+| ⚪ Upcoming | **Day 6** | [OOPS, lambda Function](#day-6-file-handling--exceptions) | 🔴 Hard | `Day6.py` |
 
 ---
 
